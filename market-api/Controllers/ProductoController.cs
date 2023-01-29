@@ -1,4 +1,6 @@
-﻿using market_api.Interfaces;
+﻿using AutoMapper;
+using market_api.Dtos;
+using market_api.Interfaces;
 using market_api.Models;
 using market_api.Specifications;
 using Microsoft.AspNetCore.Mvc;
@@ -10,26 +12,30 @@ namespace market_api.Controllers
     public class ProductoController : ControllerBase
     {
         private readonly IGenericInterface<Producto> _productoInterface;
+        private readonly IMapper _mapper;
 
-        public ProductoController(IGenericInterface<Producto> productoInterface)
+        public ProductoController(IGenericInterface<Producto> productoInterface, IMapper mapper)
         {
             _productoInterface = productoInterface;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Producto>> GetProducto(int id)
+        public async Task<ActionResult<ProductoDto>> GetProducto(int id)
         {
             var spec = new ProductoSpecification(id);
             var producto = await _productoInterface.GetByIdWithSpec(spec);
-            return Ok(producto);
+
+            return Ok(_mapper.Map<Producto, ProductoDto>(producto));
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Producto>>> GetProductos()
+        public async Task<ActionResult<List<ProductoDto>>> GetProductos()
         {
             var spec = new ProductoSpecification();
             var productos = await _productoInterface.GetAllWithSpec(spec);
-            return Ok(productos);
+
+            return Ok(_mapper.Map<IReadOnlyList<Producto>, IReadOnlyList<ProductoDto>>(productos));
         }
     }
 }

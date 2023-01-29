@@ -1,3 +1,4 @@
+using market_api.AutoMapper;
 using market_api.Data;
 using market_api.Interfaces;
 using market_api.Repositories;
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlServer(con));
 // Interfaces
 builder.Services.AddScoped<IProductoInterface, ProductoRepository>();
 builder.Services.AddScoped(typeof(IGenericInterface<>), (typeof(GenericRepository<>)));
+
+
+// Inyeccion de AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 var app = builder.Build();
 
