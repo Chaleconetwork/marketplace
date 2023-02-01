@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using market_api.Dtos;
+using market_api.Errors;
 using market_api.Interfaces;
 using market_api.Models;
 using market_api.Specifications;
@@ -25,6 +26,11 @@ namespace market_api.Controllers
         {
             var spec = new ProductoSpecification(id);
             var producto = await _productoInterface.GetByIdWithSpec(spec);
+
+            if (producto == null)
+            {
+                return NotFound(new CodeErrorResponse(404));
+            }
 
             return Ok(_mapper.Map<Producto, ProductoDto>(producto));
         }

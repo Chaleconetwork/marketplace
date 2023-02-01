@@ -20,7 +20,6 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlServer(con));
 builder.Services.AddScoped<IProductoInterface, ProductoRepository>();
 builder.Services.AddScoped(typeof(IGenericInterface<>), (typeof(GenericRepository<>)));
 
-
 // Inyeccion de AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
