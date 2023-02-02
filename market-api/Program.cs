@@ -11,6 +11,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NewPolices", api =>
+    {
+        api.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 // Conexión base de datos
 //builder.Services.AddDbContext<Context>(options => options.UseSqlServer(con));
 string? con = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -50,6 +61,8 @@ if (app.Environment.IsDevelopment())
     }
 
 app.UseHttpsRedirection();
+
+app.UseCors("NewPolices");
 
 app.UseAuthorization();
 
