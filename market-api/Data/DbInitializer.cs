@@ -37,6 +37,11 @@ namespace market_api.Data
                 await context.Productos.AddAsync(new Producto() { Nombre = "Celular", Descripcion = "Khaaa", Stock = 20, Precio = 500000, Imagen = "", MarcaId = 1, CategoriaId = 1 });
             }
 
+            if (!await context.Usuarios.AnyAsync())
+            {
+                await context.Usuarios.AddAsync(new Usuario() { Nombre = "chaleco", Contrasena = "1234", Rol = 1 });
+            }
+
             await context.SaveChangesAsync();
         }
     }
