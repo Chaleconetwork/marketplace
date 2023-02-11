@@ -28,6 +28,7 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlServer(con));
 
 // Interfaces
 builder.Services.AddScoped<IProductoInterface, ProductoRepository>();
+builder.Services.AddScoped<IAuthInterface, AuthRepository>();
 builder.Services.AddScoped(typeof(IGenericInterface<>), (typeof(GenericRepository<>)));
 
 // Inyeccion de AutoMapper

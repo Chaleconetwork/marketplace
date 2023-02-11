@@ -8,10 +8,11 @@ namespace market_api.AutoMapper
     {
         public MappingProfiles()
         {
+            CreateMap<string, UsuarioDto>();
+            CreateMap<UsuarioDto, Usuario>();
             CreateMap<Producto, ProductoDto>()
                                              .ForMember(p => p.CategoriaNombre, x => x.MapFrom(a => a.Categorias.Nombre))
                                              .ForMember(p => p.MarcaNombre, x => x.MapFrom(a => a.Marcas.Nombre));
-            CreateMap<Usuario, UsuarioDto>();
         }
     }
 }
