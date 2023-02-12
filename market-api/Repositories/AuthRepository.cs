@@ -15,13 +15,11 @@ namespace market_api.Repositories
 {
     public class AuthRepository : IAuthInterface
     {
-        private readonly Context _context;
-        private readonly IConfiguration _configuration;
+        private readonly Context _context;        
         private readonly IMapper _mapper;
-        public AuthRepository(Context context, IMapper mapper, IConfiguration configuration)
+        public AuthRepository(Context context, IMapper mapper)
         {
             _context = context;
-            _configuration = configuration;
             _mapper = mapper;
         }
 
@@ -35,8 +33,6 @@ namespace market_api.Repositories
             if (!BCrypt.Net.BCrypt.Verify(dto.Contrasena, checkUser?.Contrasena))
                 return null;
 
-            //string token = CreateToken(checkUser);
-
             return dto;
         }
          
@@ -49,28 +45,6 @@ namespace market_api.Repositories
             await _context.SaveChangesAsync();
 
             return dto;
-        }
-
-        private string CreateToken(Usuario usuario)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, usuario.Nombre)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds
-            );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
         }
     }
 }

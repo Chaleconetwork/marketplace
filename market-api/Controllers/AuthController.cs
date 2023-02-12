@@ -29,8 +29,6 @@ namespace market_api.Controllers
         public async Task<ActionResult<UsuarioDto>>? Register(UsuarioDto dto)
         {
             var response = await _authInterface.Register(dto);
-
-            //return Ok(_mapper.Map<UsuarioDto, Usuario>(response));
             return Ok(response);
         }
 
